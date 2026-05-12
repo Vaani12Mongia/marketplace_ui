@@ -1,10 +1,39 @@
-  import { useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../api'
 import aionosLogo from '../assets/Aionos Dark logo.svg'
 
+// Feather Icons SVGs
+const MailIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+    <polyline points="22,6 12,13 2,6"></polyline>
+  </svg>
+)
+
+const LockIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+  </svg>
+)
+
+const EyeIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+    <circle cx="12" cy="12" r="3"></circle>
+  </svg>
+)
+
+const EyeOffIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+    <line x1="1" y1="1" x2="23" y2="23"></line>
+  </svg>
+)
+
 export default function Login() {
-  const [form, setForm] = useState({ email: '', password: '' })
+  const [form, setForm] = useState({ email: 'airindia@air.in', password: 'airindia@1' })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
@@ -28,173 +57,59 @@ export default function Login() {
   }
 
   return (
-    <div style={styles.pageContainer}>
-      <div style={styles.cardContainer}>
-        <div style={styles.logoSection}>
-          <img src={aionosLogo} alt="Aionos" style={styles.logo} />
+    <div className="login-page">
+      <div className="login-card">
+        <div className="login-logo">
+          <img src={aionosLogo} alt="Aionos" />
         </div>
 
-        <h1 style={styles.title}>Marketplace Admin</h1>
-        <p style={styles.subtitle}>Sign in to your company account</p>
+        <h1 className="login-title">Marketplace Admin</h1>
+        <p className="login-sub">Sign in to your company account</p>
 
-        <form onSubmit={submit} style={styles.form}>
-          <div style={styles.field}>
-            <label style={styles.label}>Work Email</label>
-            <div style={styles.inputWrapper}>
-              <span style={styles.inputIcon}>✉</span>
+        <form onSubmit={submit} className="login-form">
+          <div className="login-field">
+            <label>Work Email</label>
+            <div className="login-input-wrapper">
+              <span className="login-input-icon"><MailIcon /></span>
               <input
                 type="email"
-                placeholder="airindia@air.in"
                 value={form.email}
                 onChange={set('email')}
                 required
                 autoFocus
-                style={styles.input}
               />
             </div>
           </div>
 
-          <div style={styles.field}>
-            <label style={styles.label}>Password</label>
-            <div style={styles.inputWrapper}>
-              <span style={styles.inputIcon}>🔒</span>
+          <div className="login-field">
+            <label>Password</label>
+            <div className="login-input-wrapper">
+              <span className="login-input-icon"><LockIcon /></span>
               <input
                 type={showPassword ? 'text' : 'password'}
-                placeholder="••••••••"
                 value={form.password}
                 onChange={set('password')}
                 required
                 minLength={6}
-                style={styles.input}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                style={styles.eyeBtn}
+                className="login-eye-btn"
+                aria-label={showPassword ? "Hide password" : "Show password"}
               >
-                {showPassword ? '👁' : '👁‍🗨'}
+                {showPassword ? <EyeOffIcon /> : <EyeIcon />}
               </button>
             </div>
           </div>
 
-          {error && <div style={styles.error}>{error}</div>}
+          {error && <div className="login-error">{error}</div>}
 
-          <button type="submit" style={styles.submitBtn} disabled={loading}>
+          <button type="submit" className="login-btn" disabled={loading}>
             {loading ? 'Please wait…' : 'Sign In'}
           </button>
         </form>
       </div>
     </div>
   )
-}
-
-const styles = {
-  pageContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: '100vh',
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
-    position: 'relative',
-    overflow: 'hidden',
-  },
-  cardContainer: {
-    background: 'white',
-    borderRadius: '12px',
-    boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
-    padding: '48px 40px',
-    width: '100%',
-    maxWidth: '450px',
-    textAlign: 'center',
-  },
-  logoSection: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: '24px',
-  },
-  logo: {
-    height: '50px',
-    width: 'auto',
-  },
-  title: {
-    fontSize: '28px',
-    fontWeight: '700',
-    color: '#1f2937',
-    margin: '0 0 8px 0',
-  },
-  subtitle: {
-    fontSize: '14px',
-    color: '#6b7280',
-    margin: '0 0 32px 0',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '20px',
-    marginTop: '32px',
-  },
-  field: {
-    textAlign: 'left',
-  },
-  label: {
-    display: 'block',
-    fontSize: '13px',
-    fontWeight: '600',
-    color: '#374151',
-    marginBottom: '8px',
-  },
-  inputWrapper: {
-    position: 'relative',
-    display: 'flex',
-    alignItems: 'center',
-  },
-  inputIcon: {
-    position: 'absolute',
-    left: '14px',
-    fontSize: '16px',
-    pointerEvents: 'none',
-  },
-  input: {
-    width: '100%',
-    padding: '12px 14px 12px 40px',
-    border: '1.5px solid #e5e7eb',
-    borderRadius: '8px',
-    fontSize: '14px',
-    transition: 'all 0.3s ease',
-    boxSizing: 'border-box',
-    fontFamily: 'inherit',
-  },
-  eyeBtn: {
-    position: 'absolute',
-    right: '12px',
-    background: 'none',
-    border: 'none',
-    fontSize: '16px',
-    cursor: 'pointer',
-    padding: '4px 8px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  error: {
-    background: '#fee2e2',
-    color: '#dc2626',
-    padding: '12px 14px',
-    borderRadius: '8px',
-    fontSize: '13px',
-    textAlign: 'center',
-  },
-  submitBtn: {
-    background: '#667eea',
-    color: 'white',
-    padding: '14px 16px',
-    border: 'none',
-    borderRadius: '8px',
-    fontSize: '15px',
-    fontWeight: '600',
-    cursor: 'pointer',
-    transition: 'all 0.3s ease',
-    marginTop: '8px',
-  },
 }

@@ -1,4 +1,4 @@
-const API_BASE = 'https://adminpanelapi-v2.niceflower-39d2e00e.southindia.azurecontainerapps.io/api'
+const API_BASE = import.meta.env.VITE_API_BASE;
 
 function getSession() {
   try { return JSON.parse(sessionStorage.getItem('tenant_session') || 'null') } catch { return null }
@@ -39,9 +39,9 @@ async function authRequest(path, payload) {
 }
 
 export const api = {
-  login:    (payload) => authRequest('/auth/login',    payload),
+  login: (payload) => authRequest('/auth/login', payload),
   register: (payload) => authRequest('/auth/register', payload),
-  logout:   (payload) => authRequest('/auth/logout',   payload),
+  logout: (payload) => authRequest('/auth/logout', payload),
 
   getDashboardSummary: () => request('/dashboard-summary'),
 
